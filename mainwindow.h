@@ -28,6 +28,10 @@ private slots:
 
     void on_actionSave_as_triggered();
 
+    void on_actionHelp_triggered();
+
+    void on_actionAuthor_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString path;
