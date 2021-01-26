@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     this->statusBar()->setSizeGripEnabled(false);
+    this->setWindowTitle("CuDi - Untitled.cudi *");
     ui->alerts->setVisible(false);
     ui->alerts->setFrameStyle(QFrame::NoFrame);
     ui->remove->setValidator(new QRegExpValidator(QRegExp("[0-9]*")));
@@ -42,7 +43,11 @@ void MainWindow::on_addbutton_clicked()
         ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(translated));
         ui->original->setText("");
         ui->translated->setText("");
-        this->setWindowTitle("CuDi  *");
+
+        if(path.isEmpty())
+            this->setWindowTitle("CuDi - Untitled.cudi *");
+        else
+            this->setWindowTitle("CuDi - " + path + " *");
     }
 }
 void MainWindow::on_removeButton_clicked()
@@ -64,7 +69,11 @@ void MainWindow::on_removeButton_clicked()
         {
             ui->tableWidget->removeRow(remove);
             ui->remove->setText("");
-            this->setWindowTitle("CuDi  *");
+
+            if(path.isEmpty())
+                this->setWindowTitle("CuDi - Untitled.cudi *");
+            else
+                this->setWindowTitle("CuDi - " + path + " *");
         }
     }
 }
@@ -94,13 +103,14 @@ void MainWindow::on_actionOpen_triggered()
         tmp = input.readLine();
         ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(tmp));
     }
-    this->setWindowTitle("CuDi");
+
+    this->setWindowTitle("CuDi - " + path);
     file.close();
 }
 
 void MainWindow::on_actionNew_triggered()
 {
-    this->setWindowTitle("CuDi  *");
+    this->setWindowTitle("CuDi - Untitled.cudi *");
     ui->tableWidget->setRowCount(0);
     ui->original->setText("");
     ui->translated->setText("");
@@ -138,7 +148,8 @@ void MainWindow::on_actionSave_triggered()
         tmp = ui->tableWidget->item(i, 1)->text();
         output << tmp << "\n";
     }
-    this->setWindowTitle("CuDi");
+
+    this->setWindowTitle("CuDi - " + path);
     file.flush();
     file.close();
 }
@@ -166,7 +177,8 @@ void MainWindow::on_actionSave_as_triggered()
         tmp = ui->tableWidget->item(i, 1)->text();
         output << tmp << "\n";
     }
-    this->setWindowTitle("CuDi");
+
+    this->setWindowTitle("CuDi - " + path);
     file.flush();
     file.close();
 }
