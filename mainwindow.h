@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -32,8 +33,13 @@ private slots:
 
     void on_actionAuthor_triggered();
 
+    void on_eventGroupName_textchanged(QString name);
+
 private:
     Ui::MainWindow *ui;
     QString path;
+    QVector<QString> gnames;
+    int gnumber;
+
 };
 #endif // MAINWINDOW_H

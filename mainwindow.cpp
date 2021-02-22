@@ -10,7 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , path("")
+    , gnumber(1)
 {
+    gnames.append("Group1");
     ui->setupUi(this);
     this->statusBar()->setSizeGripEnabled(false);
     this->setWindowTitle("CuDi - Untitled.cudi *");
@@ -19,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->remove->setValidator(new QRegExpValidator(QRegExp("[0-9]*")));
     ui->tableWidget->horizontalHeader()->setVisible(true);
     ui->tableWidget->verticalHeader()->setVisible(true);
+    ui->group_name->setText(gnames[0]);
+    ui->group_count->setText(QString("%1/%2").arg(gnumber).arg(gnames.size()));
 }
 
 MainWindow::~MainWindow()
