@@ -33,13 +33,21 @@ private slots:
 
     void on_actionAuthor_triggered();
 
-    void on_eventGroupName_textchanged(QString name);
+    void on_group_name_textEdited(const QString &arg1);
+
+    void on_group_add_clicked();
+
+    void on_group_delete_clicked();
+
+    void on_group_next_clicked();
+
+    void on_group_prev_clicked();
 
 private:
     Ui::MainWindow *ui;
     QString path;
-    QVector<QString> gnames;
-    int gnumber;
+    QVector<QString> group_names;
+    int current_group;
 
 };
 #endif // MAINWINDOW_H

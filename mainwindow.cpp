@@ -10,9 +10,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , path("")
-    , gnumber(1)
+    , current_group(1)
 {
-    gnames.append("Group1");
+    group_names.append("Group1");
     ui->setupUi(this);
     this->statusBar()->setSizeGripEnabled(false);
     this->setWindowTitle("CuDi - Untitled.cudi *");
@@ -21,8 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->remove->setValidator(new QRegExpValidator(QRegExp("[0-9]*")));
     ui->tableWidget->horizontalHeader()->setVisible(true);
     ui->tableWidget->verticalHeader()->setVisible(true);
-    ui->group_name->setText(gnames[0]);
-    ui->group_count->setText(QString("%1/%2").arg(gnumber).arg(gnames.size()));
+    ui->group_name->setText(group_names[0]);
+    ui->group_count->setText(QString("%1/%2").arg(current_group).arg(group_names.size()));
 }
 
 MainWindow::~MainWindow()
@@ -194,5 +194,63 @@ void MainWindow::on_actionHelp_triggered()
 
 void MainWindow::on_actionAuthor_triggered()
 {
-    QMessageBox::information(this, "Author", "The author of this application is\nKacper Kossakowski\n\nYou can contact me on\nkacper.kossakowski01@gmail.com");
+    QMessageBox::information(this, "Author", "The author of this application is\nKacper Kossakowski\n\nYou can contact me by email:\nkacper.kossakowski01@gmail.com");
 }
+
+void MainWindow::on_group_name_textEdited(const QString &name)
+{
+    group_names[current_group - 1] = name;
+}
+
+
+void MainWindow::on_group_add_clicked()
+{
+    current_group = group_names.size() + 1;
+    group_names.append(QString("Group%1").arg(group_names.size() + 1));
+    ui->group_name->setText(group_names[current_group - 1]);
+    ui->group_count->setText(QString("%1/%2").arg(current_group).arg(group_names.size()));
+}
+
+
+void MainWindow::on_group_delete_clicked()
+{
+    if(group_names.size() > 1)
+    {
+        if(current_group == 1)
+        {
+            group_names.remove(current_group - 1);
+            ui->group_name->setText(group_names[current_group - 1]);
+            ui->group_count->setText(QString("%1/%2").arg(current_group).arg(group_names.size()));
+        }
+        else
+        {
+            current_group --;
+            group_names.remove(current_group);
+            ui->group_name->setText(group_names[current_group - 1]);
+            ui->group_count->setText(QString("%1/%2").arg(current_group).arg(group_names.size()));
+        }
+    }
+}
+
+
+void MainWindow::on_group_next_clicked()
+{
+    if(current_group < group_names.size())
+    {
+        current_group ++;
+        ui->group_name->setText(group_names[current_group - 1]);
+        ui->group_count->setText(QString("%1/%2").arg(current_group).arg(group_names.size()));
+    }
+}
+
+
+void MainWindow::on_group_prev_clicked()
+{
+    if(current_group > 1)
+    {
+        current_group --;
+        ui->group_name->setText(group_names[current_group - 1]);
+        ui->group_count->setText(QString("%1/%2").arg(current_group).arg(group_names.size()));
+    }
+}
+
